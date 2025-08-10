@@ -1,0 +1,5 @@
+../FreeRTOSv2024/list.c:49:6:vListInitialise	1
+../FreeRTOSv2024/list.c:89:6:vListInitialiseItem	1
+../FreeRTOSv2024/list.c:105:6:vListInsertEnd	1
+../FreeRTOSv2024/list.c:139:6:vListInsert	3
+../FreeRTOSv2024/list.c:215:13:uxListRemove	2

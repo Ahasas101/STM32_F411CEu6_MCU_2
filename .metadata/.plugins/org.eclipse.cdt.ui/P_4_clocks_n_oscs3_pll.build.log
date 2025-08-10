@@ -1,0 +1,10 @@
+18:17:25 **** Incremental Build of configuration Debug for project P_4_clocks_n_oscs3_pll ****
+make -j4 all 
+arm-none-eabi-size  P_4_clocks_n_oscs3_pll.elf 
+   text	   data	    bss	    dec	    hex	filename
+   9896	    104	   1904	  11904	   2e80	P_4_clocks_n_oscs3_pll.elf
+Finished building: default.size.stdout
+ 
+
+18:17:25 Build Finished. 0 errors, 0 warnings. (took 460ms)
+

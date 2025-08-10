@@ -1,0 +1,10 @@
+15:08:21 **** Incremental Build of configuration Debug for project P_8_timers_Input_capture ****
+make -j4 all 
+arm-none-eabi-size  P_8_timers_Input_capture.elf 
+   text	   data	    bss	    dec	    hex	filename
+  23520	    472	   1992	  25984	   6580	P_8_timers_Input_capture.elf
+Finished building: default.size.stdout
+ 
+
+15:08:22 Build Finished. 0 errors, 0 warnings. (took 479ms)
+

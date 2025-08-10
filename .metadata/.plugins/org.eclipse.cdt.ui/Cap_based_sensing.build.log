@@ -1,0 +1,17 @@
+23:18:42 **** Incremental Build of configuration Debug for project Cap_based_sensing ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F411xE -c -I../Core/Inc -I"D:/MUC2/Cap_based_sensing/FreeRTOSv2024" -I"D:/MUC2/Cap_based_sensing/FreeRTOSv2024/include" -I"D:/MUC2/Cap_based_sensing/FreeRTOSv2024/portable/GCC/ARM_CM4F" -I"D:/MUC2/Cap_based_sensing/FreeRTOSv2024/portable/MemMang" -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Cap_based_sensing.elf" @"objects.list"   -mcpu=cortex-m4 -T"D:\MUC2\Cap_based_sensing\STM32F411CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Cap_based_sensing.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Cap_based_sensing.elf
+ 
+arm-none-eabi-size  Cap_based_sensing.elf 
+arm-none-eabi-objdump -h -S Cap_based_sensing.elf  > "Cap_based_sensing.list"
+   text	   data	    bss	    dec	    hex	filename
+   1740	      0	   1704	   3444	    d74	Cap_based_sensing.elf
+Finished building: default.size.stdout
+ 
+Finished building: Cap_based_sensing.list
+ 
+
+23:18:44 Build Finished. 0 errors, 0 warnings. (took 1s.267ms)
+

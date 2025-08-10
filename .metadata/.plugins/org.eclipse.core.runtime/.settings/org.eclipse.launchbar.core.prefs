@@ -1,0 +1,12 @@
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/name=Local
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
+configDescList=org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:P_3_clocks_n_oscs Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:P_4_clocks_n_oscs3_pll,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:P_5_clocks_n_oscs_pll_hse Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:P_7_timers_IT Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:P_6_timers,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:P_6_timers_IT Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:P_8_timers_Input_capture Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:P_10_timers_PWM Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:P_9_timers_output_compare Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:P_9_timers_output_compare,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:P_11_timers_PWM_led Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:P_6_timers Debug
+eclipse.preferences.version=1
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:P_10_timers_PWM\ Debug/activeLaunchMode=run
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:P_10_timers_PWM\ Debug/activeLaunchTarget=null\:---
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:P_11_timers_PWM_led\ Debug/activeLaunchMode=debug
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:P_3_clocks_n_oscs\ Debug/activeLaunchMode=debug
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:P_3_clocks_n_oscs\ Debug/activeLaunchTarget=null\:---
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:P_4_clocks_n_oscs3_pll/activeLaunchMode=debug
+org.eclipse.launchbar.core.descriptorType.default\:P_9_timers_output_compare\ Debug/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local

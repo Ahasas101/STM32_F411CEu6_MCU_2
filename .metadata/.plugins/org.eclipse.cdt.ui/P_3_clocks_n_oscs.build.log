@@ -1,0 +1,10 @@
+17:38:19 **** Build of configuration Debug for project P_3_clocks_n_oscs ****
+make -j4 all 
+arm-none-eabi-size  P_3_clocks_n_oscs.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10096	    104	   1904	  12104	   2f48	P_3_clocks_n_oscs.elf
+Finished building: default.size.stdout
+ 
+
+17:38:20 Build Finished. 0 errors, 0 warnings. (took 443ms)
+

@@ -1,0 +1,71 @@
+#include "stm32f4xx.h"
+#include "stm32f4xx_hal.h"
+#include <stdio.h>
+#include <string.h>
+
+
+
+void Error_Handler(void);
+void GPIO_SWO(void);
+void Clock_cnfg(uint8_t clock_freq);
+void TIMER_Init(void);
+void GPIO_LED(void);
+
+TIM_HandleTypeDef timer10;
+
+int main(void)
+{
+
+	HAL_Init();
+	GPIO_SWO();
+	GPIO_LED();
+	TIMER_Init();
+	// starting timer
+	HAL_TIM_Base_Start(&timer10);
+	while(1)
+	{
+		while(!(TIM10->SR & TIM_SR_UIF));
+		TIM10->SR &= ~(1 << 0);
+		HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+	}
+
+}
+
+void GPIO_SWO(void)
+{
+	__HAL_RCC_GPIOB_CLK_ENABLE();
+	GPIO_InitTypeDef gpio_swo;
+	gpio_swo.Mode = GPIO_MODE_AF_PP;
+	gpio_swo.Pin = GPIO_PIN_3;
+	gpio_swo.Alternate = GPIO_AF0_SWJ;
+	gpio_swo.Pull = GPIO_NOPULL;
+	gpio_swo.Speed = GPIO_SPEED_FREQ_LOW;
+
+	HAL_GPIO_Init(GPIOB, &gpio_swo);
+}
+
+
+
+void Error_Handler(void)
+{
+	while(1);
+}
+
+
+void TIMER_Init(void)
+{
+	timer10.Instance = TIM10;
+	timer10.Init.Prescaler = 24; // counter clock = timerclk/ 25
+	timer10.Init.Period = 64000 - 1;
+	if(HAL_TIM_Base_Init(&timer10) != HAL_OK) Error_Handler();
+}
+
+void GPIO_LED(void)
+{
+	__HAL_RCC_GPIOC_CLK_ENABLE();
+	GPIO_InitTypeDef gpioled;
+	gpioled.Mode = GPIO_MODE_OUTPUT_PP;
+	gpioled.Pull = GPIO_NOPULL;
+	gpioled.Pin = GPIO_PIN_13;
+	HAL_GPIO_Init(GPIOC, &gpioled);
+}

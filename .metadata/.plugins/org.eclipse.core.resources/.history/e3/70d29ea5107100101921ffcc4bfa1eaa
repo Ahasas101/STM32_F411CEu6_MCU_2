@@ -1,0 +1,95 @@
+#include "stm32f4xx_hal.h"
+
+void Timer2_init(void);
+void Error_Hanlder(void);
+void SysClk_config(void);
+
+uint32_t pulse1_value = 25000; // to produce 500hz
+uint32_t pulse2_value = 12500; // 1000hz
+uint32_t pulse3_value = 6250; // 2000hz
+uint32_t pulse4_value = 3125; // 4000hz
+
+uint32_t ccr_content;
+TIM_HandleTypeDef tim2;
+
+int main(void)
+{
+	HAL_Init();
+	SysClk_config();
+	if(HAL_TIM_OC_Start_IT(&tim2, TIM_CHANNEL_1) != HAL_OK) Error_Hanlder();
+	if(HAL_TIM_OC_Start_IT(&tim2, TIM_CHANNEL_2) != HAL_OK) Error_Hanlder();
+	if(HAL_TIM_OC_Start_IT(&tim2, TIM_CHANNEL_3) != HAL_OK) Error_Hanlder();
+	if(HAL_TIM_OC_Start_IT(&tim2, TIM_CHANNEL_4) != HAL_OK) Error_Hanlder();
+
+}
+
+Timer2_init()
+{
+	TIM_HandleTypeDef tim2;
+	tim2.Instance = TIM2;
+	tim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+	tim2.Init.Period = 0xFFFFFFFF;
+	tim2.Init.Prescaler = 1;
+	if(HAL_TIM_OC_Init(&tim2) != HAL_OK) Error_Handler();
+
+	TIM_OC_InitTypeDef tim2oc_init;
+	tim2oc_init.OCMode = TIM_OCMODE_TOGGLE;
+	tim2oc_init.OCPolarity = TIM_OCPOLARITY_HIGH;
+	tim2oc_init.Pulse = pulse1_value;
+	if (HAL_TIM_OC_ConfigChannel(&tim2, &tim2oc_init, TIM_CHANNEL_1) != HAL_OK) Error_Handler();
+	tim2oc_init.Pulse = pulse2_value;
+	if (HAL_TIM_OC_ConfigChannel(&tim2, &tim2oc_init, TIM_CHANNEL_2) != HAL_OK) Error_Handler();
+	tim2oc_init.Pulse = pulse3_value;
+	if (HAL_TIM_OC_ConfigChannel(&tim2, &tim2oc_init, TIM_CHANNEL_3) != HAL_OK) Error_Handler();
+	tim2oc_init.Pulse = pulse4_value;
+	if (HAL_TIM_OC_ConfigChannel(&tim2, &tim2oc_init, TIM_CHANNEL_4) != HAL_OK) Error_Handler();
+
+
+
+}
+
+void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	if(htim->Channel == TIM_CHANNEL_1)
+	{
+		ccr_content = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1);
+		__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_1, ccr_content + pulse1_value);
+	}
+	if(htim->Channel == TIM_CHANNEL_2)
+	{
+		ccr_content = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1);
+		__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_2, ccr_content + pulse2_value);
+	}
+	if(htim->Channel == TIM_CHANNEL_3)
+	{
+		ccr_content = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1);
+		__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_3, ccr_content + pulse3_value);
+
+	}
+	if(htim->Channel == TIM_CHANNEL_4)
+	{
+		ccr_content = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1);
+		__HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_4, ccr_content + pulse4_value);
+
+	}
+}
+
+void SysClk_config(void)
+{
+	RCC_OscInitTypeDef hse;
+	hse.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+	hse.HSEState = RCC_HSE_ON;
+	hse.PLL.PLLState = RCC_PLL_NONE;
+	if(HAL_RCC_OscConfig(&hse) != HAL_OK) Error_Hanlder();
+	RCC_ClkInitTypeDef clk;
+	clk.SYSCLKSource = RCC_SYSCLKSOURCE_STATUS_HSE;
+	clk.ClockType = RCC_CLOCKTYPE_SYSCLK;
+	HAL_RCC_ClockConfig(&clk, FLASH_ACR_LATENCY_0WS);
+	__HAL_RCC_HSI_DISABLE();// always disable hsi after making hse as clock source not before that
+
+}
+
+void Error_Hanlder(void)
+{
+	while(1);
+}
