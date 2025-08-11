@@ -1,0 +1,159 @@
+#include "stm32f4xx_hal.h"
+#include "FreeRTOS.h"
+#include "task.h"
+
+static GPIO_InitTypeDef gpio_cap;
+static ADC_HandleTypeDef adc;
+
+volatile uint32_t val;
+
+TaskHandle_t CapChargeHandle;
+TaskHandle_t AdcReadHandle;
+TaskHandle_t CapDischargeHandle;
+TaskHandle_t LcdPrintHandle;
+
+void CapChargeTaskHandler(void* parameters);
+void AdcReadTaskHandler(void* parameters);
+void CapDischargeTaskHandler(void* parameters);
+void LcdPrintTaskHandler(void* parameters);
+
+void SystemClockConfig(void);
+void GpioSwoInit(void);
+void AdcInit(void);
+void Error_Handler(void);
+
+void GpioCapInit(void);
+
+
+int main(void)
+{
+	HAL_Init();
+	GpioSwoInit();
+	AdcInit();
+
+	BaseType_t status;
+
+	status = xTaskCreate(CapChargeTaskHandler, "CapChargeTask", 200, NULL, 4, &CapChargeHandle);
+	configASSERT(status == pdPASS);
+
+	status = xTaskCreate(AdcReadTaskHandler, "AdcReadTask", 200, NULL, 2, &AdcReadHandle);
+	configASSERT(status == pdPASS);
+
+	status = xTaskCreate(CapDischargeTaskHandler, "CapDischargeTask", 200, NULL, 2, &CapDischargeHandle);
+	configASSERT(status == pdPASS);
+
+	status = xTaskCreate(LcdPrintTaskHandler, "LcdPrintTask", 200, NULL, 2, &LcdPrintHandle);
+	configASSERT(status == pdPASS);
+
+	vTaskStartScheduler();
+
+	return 0;
+}
+
+void  Error_Handler(void)
+{
+	while(1);
+}
+
+void SystemClockConfig(void)
+{
+
+}
+
+void GpioSwoInit(void)
+{
+	__HAL_RCC_GPIOB_CLK_ENABLE();
+	GPIO_InitTypeDef gpio_swo;
+	gpio_swo.Mode = GPIO_MODE_AF_PP;
+	gpio_swo.Pin = GPIO_PIN_3;
+	gpio_swo.Alternate = GPIO_AF0_SWJ;
+	gpio_swo.Pull = GPIO_NOPULL;
+	gpio_swo.Speed = GPIO_SPEED_FREQ_LOW;
+	HAL_GPIO_Init(GPIOB, &gpio_swo);
+}
+
+
+void GpioCapInit(void)
+{
+	__HAL_RCC_GPIOA_CLK_ENABLE();
+	gpio_cap.Mode = GPIO_MODE_OUTPUT_PP;
+	gpio_cap.Pin = GPIO_PIN_0;
+	gpio_cap.Pull = GPIO_NOPULL;
+	gpio_cap.Speed = GPIO_SPEED_FREQ_MEDIUM;
+	HAL_GPIO_Init(GPIOA, &gpio_cap);
+}
+
+void AdcInit(void)
+{
+	__HAL_RCC_ADC1_CLK_ENABLE();
+
+	GPIO_InitTypeDef gpio_adc;
+	gpio_adc.Mode = GPIO_MODE_ANALOG;
+	gpio_adc.Speed = GPIO_SPEED_FREQ_MEDIUM;
+	gpio_adc.Pin = GPIO_PIN_1;
+	gpio_adc.Pull = GPIO_NOPULL;
+	HAL_GPIO_Init(GPIOA, &gpio_adc);
+
+
+	adc.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
+	adc.Init.Resolution = ADC_RESOLUTION_12B;
+	adc.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+	adc.Init.ContinuousConvMode = DISABLE;
+	adc.Instance = ADC1;
+	if(HAL_ADC_Init(&adc) != HAL_OK) Error_Handler();
+
+	ADC_ChannelConfTypeDef cnl;
+	cnl.Channel = ADC_CHANNEL_1;
+	cnl.SamplingTime = ADC_SAMPLETIME_15CYCLES;
+	cnl.Rank = 1;
+	if(HAL_ADC_ConfigChannel(&adc, &cnl) != HAL_OK) Error_Handler();
+
+
+}
+
+void CapChargeTaskHandler(void* parameters)
+{
+	while(1)
+	{
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
+		vTaskDelay(pdMS_TO_TICKS(1000));
+		xTaskNotify(AdcReadHandle, 0, eNoAction);
+	}
+}
+
+void AdcReadTaskHandler(void* parameters)
+{
+	while(1)
+	{
+		xTaskNotifyWait(0, 0, NULL, portMAX_DELAY);
+		if(HAL_ADC_Start(&adc) != HAL_OK) Error_Handler();
+		val = HAL_ADC_GetValue(&adc);
+		if(HAL_ADC_Stop(&adc) != HAL_OK) Error_Handler();
+		xTaskNotify(LcdPrintHandle, 0, eNoAction);
+	}
+
+
+}
+
+void CapDischargeTaskHandler(void* parameters)
+{
+	while(1)
+	{
+		xTaskNotifyWait(0, 0, NULL, portMAX_DELAY);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
+		HAL_Delay(1000);
+		taskYIELD();
+	}
+}
+
+void LcdPrintTaskHandler(void* parameters)
+{
+	while(1)
+	{
+		xTaskNotifyWait(0, 0, NULL, portMAX_DELAY);
+		printf("%lu \n",val);
+		xTaskNotify(CapDischargeHandle, 0, eNoAction);
+	}
+
+}
+

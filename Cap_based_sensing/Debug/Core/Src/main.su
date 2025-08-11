@@ -1,1 +1,10 @@
-../Core/Src/main.c:12:5:main	4	static
+../Core/Src/main.c:29:5:main	40	static,ignoring_inline_asm
+../Core/Src/main.c:54:7:Error_Handler	4	static
+../Core/Src/main.c:59:6:SystemClockConfig	4	static
+../Core/Src/main.c:64:6:GpioSwoInit	32	static
+../Core/Src/main.c:77:6:GpioCapInit	16	static
+../Core/Src/main.c:87:6:AdcInit	48	static
+../Core/Src/main.c:115:6:CapChargeTaskHandler	24	static
+../Core/Src/main.c:125:6:AdcReadTaskHandler	24	static
+../Core/Src/main.c:139:6:CapDischargeTaskHandler	24	static,ignoring_inline_asm
+../Core/Src/main.c:150:6:LcdPrintTaskHandler	24	static

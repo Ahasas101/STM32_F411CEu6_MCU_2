@@ -1,0 +1,16 @@
+09:14:52 **** Build of configuration Debug for project P_4_clocks_n_oscs_pll_hsi ****
+make -j4 all 
+arm-none-eabi-gcc -o "P_4_clocks_n_oscs_pll_hsi.elf" @"objects.list"   -mcpu=cortex-m4 -T"D:\MUC2\P_4_clocks_n_oscs_pll_hsi\STM32F411CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="P_4_clocks_n_oscs_pll_hsi.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: P_4_clocks_n_oscs_pll_hsi.elf
+ 
+arm-none-eabi-size  P_4_clocks_n_oscs_pll_hsi.elf 
+arm-none-eabi-objdump -h -S P_4_clocks_n_oscs_pll_hsi.elf  > "P_4_clocks_n_oscs_pll_hsi.list"
+   text	   data	    bss	    dec	    hex	filename
+   9896	    104	   1904	  11904	   2e80	P_4_clocks_n_oscs_pll_hsi.elf
+Finished building: default.size.stdout
+ 
+Finished building: P_4_clocks_n_oscs_pll_hsi.list
+ 
+
+09:14:52 Build Finished. 0 errors, 0 warnings. (took 625ms)
+
