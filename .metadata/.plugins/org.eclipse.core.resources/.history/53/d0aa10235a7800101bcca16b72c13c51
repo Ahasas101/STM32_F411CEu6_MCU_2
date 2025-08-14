@@ -1,0 +1,95 @@
+/*
+ * In this project we are using loop back mode of can peripheral
+ */
+
+
+#include "stm32f1xx_hal.h"
+#include <string.h>
+#include <stdio.h>
+
+void CAN1_init(void);
+void Error_Hanlder(void);
+void SysClk_config(void);
+void GpioSwoInit(void);
+void CAN1_Tx(void);
+
+CAN_HandleTypeDef can1;
+
+int main(void)
+{
+	HAL_Init();
+	SysClk_config(); // we are using HSE here which is 8Mhz
+	CAN1_init();
+	if(HAL_CAN_Start(&can1) != HAL_OK) Error_Hanlder();
+	CAN1_Tx();
+
+
+}
+
+void SysClk_config(void)
+{
+	RCC_OscInitTypeDef hse;
+	memset(&hse, 0, sizeof(hse));
+	hse.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+	hse.HSEState = RCC_HSE_ON;
+	hse.PLL.PLLState = RCC_PLL_NONE;
+	if(HAL_RCC_OscConfig(&hse) != HAL_OK) Error_Hanlder();
+	RCC_ClkInitTypeDef clk;
+	clk.SYSCLKSource = RCC_SYSCLKSOURCE_HSE;
+	clk.ClockType = RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | \
+			RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+	clk.AHBCLKDivider = RCC_SYSCLK_DIV1;
+	clk.APB1CLKDivider = RCC_HCLK_DIV1;
+	clk.APB2CLKDivider = RCC_HCLK_DIV1;
+	if(HAL_RCC_ClockConfig(&clk, FLASH_ACR_LATENCY_0) != HAL_OK) Error_Hanlder();
+	__HAL_RCC_HSI_DISABLE();// always disable hsi after making hse as clock source not before that
+
+}
+
+
+void CAN1_init(void)
+{
+	can1.Instance = CAN1;
+	can1.Init.Mode = CAN_MODE_LOOPBACK;
+	can1.Init.AutoBusOff = DISABLE;
+	can1.Init.AutoRetransmission = ENABLE;
+	can1.Init.AutoWakeUp = DISABLE;
+	can1.Init.ReceiveFifoLocked = DISABLE;
+	can1.Init.TimeTriggeredMode = DISABLE;
+	can1.Init.TransmitFifoPriority = DISABLE;
+
+	can1.Init.Prescaler = 1;
+	can1.Init.TimeSeg1 = CAN_BS1_13TQ;
+	can1.Init.TimeSeg2 = CAN_BS2_2TQ;
+	can1.Init.SyncJumpWidth = CAN_SJW_1TQ;
+
+	if(HAL_CAN_Init(&can1) != HAL_OK) Error_Hanlder();
+
+
+}
+
+
+void CAN1_Tx(void)
+{
+	CAN_TxHeaderTypeDef Txheader;
+
+	uint32_t TxMailbox;
+	uint8_t messg[5] = {'H','E','L','L','O'};
+
+	Txheader.IDE = CAN_ID_STD;
+	Txheader.DLC = 5;
+	Txheader.RTR = CAN_RTR_DATA;
+	Txheader.StdId = 0x65D;
+
+	if(HAL_CAN_AddTxMessage(&can1, &Txheader, messg, &TxMailbox) != HAL_OK) Error_Hanlder();
+
+	while(HAL_CAN_IsTxMessagePending(&can1, TxMailbox));
+
+	printf("Message Transmitted");
+
+}
+
+void Error_Hanlder(void)
+{
+	while(1);
+}

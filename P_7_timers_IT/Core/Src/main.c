@@ -4,7 +4,7 @@
  * for the interrupt based implementaions follow the steps:
  * 1. Start the timer with the API having IT
  * 2. Enable the irq and set the priority in the msp.c
- * 3. Search for the ISR from syscall.c
+ * 3. Search for the ISR from startup.x
  * 4. Implement it by calling the HAL_TIM_IRQ_Handler
  * 5. in HAL_TIM_IRQ_Handler search for the callback of the interest
  * 6. Implement it in the main.c

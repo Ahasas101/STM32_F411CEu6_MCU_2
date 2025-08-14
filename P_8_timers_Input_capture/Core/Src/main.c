@@ -1,5 +1,13 @@
 /*
- *
+ *In this exercise we are using input capture mode of the timer
+ *steps--> 1. config the timer using TIM_HandleTypeDef
+ *steps--> 2. Config the channel
+ *steps--> 3. use the HAL_TIM_IC_ConfigChannel
+ *steps--> 4. configure the gpio for the timer channel in msp.c
+ *steps--> 5. Enable the interrupt in IT.c and call the hal_tim_irqHanler
+ *steps--> 6. look for the proper callback in the irq handler
+ *steps--> 7. Implement callback i.e HAL_TIM_IC_CaptureCallback here in main.c
+ *steps-->
  */
 #include "stm32f4xx.h"
 #include "stm32f4xx_hal.h"
@@ -119,8 +127,8 @@ void LSE_Init(void)
 void SysClk_config(void)
 {
 	RCC_ClkInitTypeDef clk;
-	clk.SYSCLKSource = RCC_SYSCLKSOURCE_HSE;
 	clk.ClockType = RCC_CLOCKTYPE_SYSCLK;
+	clk.SYSCLKSource = RCC_SYSCLKSOURCE_HSE;
 	HAL_RCC_ClockConfig(&clk, FLASH_ACR_LATENCY_0WS);
 	__HAL_RCC_HSI_DISABLE();// always disable hsi after making hse as clock source not before that
 

@@ -39,13 +39,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_line   00004fee  00000000  00000000  0001ed2f  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    00084e82  00000000  00000000  00023d1d  2**0
+ 18 .debug_str    00084e65  00000000  00000000  00023d1d  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  000a8b9f  2**0
+ 19 .comment      00000043  00000000  00000000  000a8b82  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00001808  00000000  00000000  000a8be4  2**2
+ 20 .debug_frame  00001808  00000000  00000000  000a8bc8  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000048  00000000  00000000  000aa3ec  2**0
+ 21 .debug_line_str 00000050  00000000  00000000  000aa3d0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -443,22 +443,36 @@ void SysTick_Handler(void)
  80005ba:	bd80      	pop	{r7, pc}
 
 080005bc <main>:
+void Error_Handler(void);
+void GPIO_SWO(void);
+void Clock_cnfg(uint8_t clock_freq);
+
+int main(void)
+{
  80005bc:	b580      	push	{r7, lr}
  80005be:	af00      	add	r7, sp, #0
+
+	HAL_Init();
  80005c0:	f000 f9de 	bl	8000980 <HAL_Init>
+	GPIO_SWO();
  80005c4:	f000 f818 	bl	80005f8 <GPIO_SWO>
+	Clock_cnfg(SYS_CLOCK_FREQ_100MHz);
  80005c8:	2003      	movs	r0, #3
  80005ca:	f000 f83d 	bl	8000648 <Clock_cnfg>
+	printf("SysClk Freq = %lu\n", HAL_RCC_GetSysClockFreq());
  80005ce:	f001 f825 	bl	800161c <HAL_RCC_GetSysClockFreq>
  80005d2:	4603      	mov	r3, r0
  80005d4:	4619      	mov	r1, r3
  80005d6:	4806      	ldr	r0, [pc, #24]	@ (80005f0 <main+0x34>)
  80005d8:	f001 f9b4 	bl	8001944 <iprintf>
+	printf("Hclk Freq = %lu\n", HAL_RCC_GetHCLKFreq());
  80005dc:	f001 f8e4 	bl	80017a8 <HAL_RCC_GetHCLKFreq>
  80005e0:	4603      	mov	r3, r0
  80005e2:	4619      	mov	r1, r3
  80005e4:	4803      	ldr	r0, [pc, #12]	@ (80005f4 <main+0x38>)
  80005e6:	f001 f9ad 	bl	8001944 <iprintf>
+
+while(1);
  80005ea:	bf00      	nop
  80005ec:	e7fd      	b.n	80005ea <main+0x2e>
  80005ee:	bf00      	nop
@@ -466,9 +480,15 @@ void SysTick_Handler(void)
  80005f4:	08002648 	.word	0x08002648
 
 080005f8 <GPIO_SWO>:
+
+}
+
+void GPIO_SWO(void)
+{
  80005f8:	b580      	push	{r7, lr}
  80005fa:	b086      	sub	sp, #24
  80005fc:	af00      	add	r7, sp, #0
+	__HAL_RCC_GPIOB_CLK_ENABLE();
  80005fe:	2300      	movs	r3, #0
  8000600:	603b      	str	r3, [r7, #0]
  8000602:	4b0f      	ldr	r3, [pc, #60]	@ (8000640 <GPIO_SWO+0x48>)
@@ -481,20 +501,29 @@ void SysTick_Handler(void)
  8000612:	f003 0302 	and.w	r3, r3, #2
  8000616:	603b      	str	r3, [r7, #0]
  8000618:	683b      	ldr	r3, [r7, #0]
+	GPIO_InitTypeDef gpio_swo;
+	gpio_swo.Mode = GPIO_MODE_AF_PP;
  800061a:	2302      	movs	r3, #2
  800061c:	60bb      	str	r3, [r7, #8]
+	gpio_swo.Pin = GPIO_PIN_3;
  800061e:	2308      	movs	r3, #8
  8000620:	607b      	str	r3, [r7, #4]
+	gpio_swo.Alternate = GPIO_AF0_SWJ;
  8000622:	2300      	movs	r3, #0
  8000624:	617b      	str	r3, [r7, #20]
+	gpio_swo.Pull = GPIO_NOPULL;
  8000626:	2300      	movs	r3, #0
  8000628:	60fb      	str	r3, [r7, #12]
+	gpio_swo.Speed = GPIO_SPEED_FREQ_LOW;
  800062a:	2300      	movs	r3, #0
  800062c:	613b      	str	r3, [r7, #16]
+
+	HAL_GPIO_Init(GPIOB, &gpio_swo);
  800062e:	1d3b      	adds	r3, r7, #4
  8000630:	4619      	mov	r1, r3
  8000632:	4804      	ldr	r0, [pc, #16]	@ (8000644 <GPIO_SWO+0x4c>)
  8000634:	f000 fb10 	bl	8000c58 <HAL_GPIO_Init>
+}
  8000638:	bf00      	nop
  800063a:	3718      	adds	r7, #24
  800063c:	46bd      	mov	sp, r7
@@ -503,23 +532,38 @@ void SysTick_Handler(void)
  8000644:	40020400 	.word	0x40020400
 
 08000648 <Clock_cnfg>:
+
+void Clock_cnfg(uint8_t clock_freq)
+{
  8000648:	b580      	push	{r7, lr}
  800064a:	b094      	sub	sp, #80	@ 0x50
  800064c:	af00      	add	r7, sp, #0
  800064e:	4603      	mov	r3, r0
  8000650:	71fb      	strb	r3, [r7, #7]
+	RCC_OscInitTypeDef osc_init;
+	RCC_ClkInitTypeDef clk_init;
+
+	osc_init.HSIState = RCC_HSI_ON;
  8000652:	2301      	movs	r3, #1
  8000654:	62fb      	str	r3, [r7, #44]	@ 0x2c
+	osc_init.HSICalibrationValue = 16;
  8000656:	2310      	movs	r3, #16
  8000658:	633b      	str	r3, [r7, #48]	@ 0x30
+
+	osc_init.PLL.PLLSource = RCC_PLLSOURCE_HSI;
  800065a:	2300      	movs	r3, #0
  800065c:	63fb      	str	r3, [r7, #60]	@ 0x3c
+	osc_init.PLL.PLLState = RCC_PLL_ON;	osc_init.PLL.PLLM = 16;
  800065e:	2302      	movs	r3, #2
  8000660:	63bb      	str	r3, [r7, #56]	@ 0x38
  8000662:	2310      	movs	r3, #16
  8000664:	643b      	str	r3, [r7, #64]	@ 0x40
+	osc_init.PLL.PLLP = 2;
  8000666:	2302      	movs	r3, #2
  8000668:	64bb      	str	r3, [r7, #72]	@ 0x48
+
+
+	switch(clock_freq)
  800066a:	79fb      	ldrb	r3, [r7, #7]
  800066c:	2b03      	cmp	r3, #3
  800066e:	d04e      	beq.n	800070e <Clock_cnfg+0xc6>
@@ -529,9 +573,17 @@ void SysTick_Handler(void)
  8000676:	d002      	beq.n	800067e <Clock_cnfg+0x36>
  8000678:	2b02      	cmp	r3, #2
  800067a:	d024      	beq.n	80006c6 <Clock_cnfg+0x7e>
+
+
+
+
+
+}
  800067c:	e070      	b.n	8000760 <Clock_cnfg+0x118>
+			osc_init.PLL.PLLN = 100;
  800067e:	2364      	movs	r3, #100	@ 0x64
  8000680:	647b      	str	r3, [r7, #68]	@ 0x44
+			if (HAL_RCC_OscConfig(&osc_init) != HAL_OK) Error_Handler();
  8000682:	f107 0320 	add.w	r3, r7, #32
  8000686:	4618      	mov	r0, r3
  8000688:	f000 fc6a 	bl	8000f60 <HAL_RCC_OscConfig>
@@ -539,16 +591,22 @@ void SysTick_Handler(void)
  800068e:	2b00      	cmp	r3, #0
  8000690:	d001      	beq.n	8000696 <Clock_cnfg+0x4e>
  8000692:	f000 f869 	bl	8000768 <Error_Handler>
+			clk_init.ClockType = RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | \
  8000696:	230f      	movs	r3, #15
  8000698:	60fb      	str	r3, [r7, #12]
+			clk_init.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
  800069a:	2302      	movs	r3, #2
  800069c:	613b      	str	r3, [r7, #16]
+			clk_init.AHBCLKDivider = RCC_SYSCLK_DIV2;
  800069e:	2380      	movs	r3, #128	@ 0x80
  80006a0:	617b      	str	r3, [r7, #20]
+			clk_init.APB1CLKDivider = RCC_HCLK_DIV2;
  80006a2:	f44f 5380 	mov.w	r3, #4096	@ 0x1000
  80006a6:	61bb      	str	r3, [r7, #24]
+			clk_init.APB2CLKDivider = RCC_HCLK_DIV2;
  80006a8:	f44f 5380 	mov.w	r3, #4096	@ 0x1000
  80006ac:	61fb      	str	r3, [r7, #28]
+			if (HAL_RCC_ClockConfig(&clk_init, FLASH_ACR_LATENCY_0WS) != HAL_OK) Error_Handler();
  80006ae:	f107 030c 	add.w	r3, r7, #12
  80006b2:	2100      	movs	r1, #0
  80006b4:	4618      	mov	r0, r3
@@ -557,9 +615,12 @@ void SysTick_Handler(void)
  80006bc:	2b00      	cmp	r3, #0
  80006be:	d04a      	beq.n	8000756 <Clock_cnfg+0x10e>
  80006c0:	f000 f852 	bl	8000768 <Error_Handler>
+			break;
  80006c4:	e047      	b.n	8000756 <Clock_cnfg+0x10e>
+			osc_init.PLL.PLLN = 150;
  80006c6:	2396      	movs	r3, #150	@ 0x96
  80006c8:	647b      	str	r3, [r7, #68]	@ 0x44
+			if (HAL_RCC_OscConfig(&osc_init) != HAL_OK) Error_Handler();
  80006ca:	f107 0320 	add.w	r3, r7, #32
  80006ce:	4618      	mov	r0, r3
  80006d0:	f000 fc46 	bl	8000f60 <HAL_RCC_OscConfig>
@@ -567,16 +628,22 @@ void SysTick_Handler(void)
  80006d6:	2b00      	cmp	r3, #0
  80006d8:	d001      	beq.n	80006de <Clock_cnfg+0x96>
  80006da:	f000 f845 	bl	8000768 <Error_Handler>
+			clk_init.ClockType = RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | \
  80006de:	230f      	movs	r3, #15
  80006e0:	60fb      	str	r3, [r7, #12]
+			clk_init.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
  80006e2:	2302      	movs	r3, #2
  80006e4:	613b      	str	r3, [r7, #16]
+			clk_init.AHBCLKDivider = RCC_SYSCLK_DIV2;
  80006e6:	2380      	movs	r3, #128	@ 0x80
  80006e8:	617b      	str	r3, [r7, #20]
+			clk_init.APB1CLKDivider = RCC_HCLK_DIV2;
  80006ea:	f44f 5380 	mov.w	r3, #4096	@ 0x1000
  80006ee:	61bb      	str	r3, [r7, #24]
+			clk_init.APB2CLKDivider = RCC_HCLK_DIV2;
  80006f0:	f44f 5380 	mov.w	r3, #4096	@ 0x1000
  80006f4:	61fb      	str	r3, [r7, #28]
+			if (HAL_RCC_ClockConfig(&clk_init, FLASH_ACR_LATENCY_1WS) != HAL_OK) Error_Handler();
  80006f6:	f107 030c 	add.w	r3, r7, #12
  80006fa:	2101      	movs	r1, #1
  80006fc:	4618      	mov	r0, r3
@@ -585,9 +652,12 @@ void SysTick_Handler(void)
  8000704:	2b00      	cmp	r3, #0
  8000706:	d028      	beq.n	800075a <Clock_cnfg+0x112>
  8000708:	f000 f82e 	bl	8000768 <Error_Handler>
+			break;
  800070c:	e025      	b.n	800075a <Clock_cnfg+0x112>
+			osc_init.PLL.PLLN = 200;
  800070e:	23c8      	movs	r3, #200	@ 0xc8
  8000710:	647b      	str	r3, [r7, #68]	@ 0x44
+			if (HAL_RCC_OscConfig(&osc_init) != HAL_OK) Error_Handler();
  8000712:	f107 0320 	add.w	r3, r7, #32
  8000716:	4618      	mov	r0, r3
  8000718:	f000 fc22 	bl	8000f60 <HAL_RCC_OscConfig>
@@ -595,16 +665,22 @@ void SysTick_Handler(void)
  800071e:	2b00      	cmp	r3, #0
  8000720:	d001      	beq.n	8000726 <Clock_cnfg+0xde>
  8000722:	f000 f821 	bl	8000768 <Error_Handler>
+			clk_init.ClockType = RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | \
  8000726:	230f      	movs	r3, #15
  8000728:	60fb      	str	r3, [r7, #12]
+			clk_init.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
  800072a:	2302      	movs	r3, #2
  800072c:	613b      	str	r3, [r7, #16]
+			clk_init.AHBCLKDivider = RCC_SYSCLK_DIV2;
  800072e:	2380      	movs	r3, #128	@ 0x80
  8000730:	617b      	str	r3, [r7, #20]
+			clk_init.APB1CLKDivider = RCC_HCLK_DIV2;
  8000732:	f44f 5380 	mov.w	r3, #4096	@ 0x1000
  8000736:	61bb      	str	r3, [r7, #24]
+			clk_init.APB2CLKDivider = RCC_HCLK_DIV2;
  8000738:	f44f 5380 	mov.w	r3, #4096	@ 0x1000
  800073c:	61fb      	str	r3, [r7, #28]
+			if (HAL_RCC_ClockConfig(&clk_init, FLASH_ACR_LATENCY_1WS) != HAL_OK) Error_Handler();
  800073e:	f107 030c 	add.w	r3, r7, #12
  8000742:	2101      	movs	r1, #1
  8000744:	4618      	mov	r0, r3
@@ -613,20 +689,28 @@ void SysTick_Handler(void)
  800074c:	2b00      	cmp	r3, #0
  800074e:	d006      	beq.n	800075e <Clock_cnfg+0x116>
  8000750:	f000 f80a 	bl	8000768 <Error_Handler>
+			break;
  8000754:	e003      	b.n	800075e <Clock_cnfg+0x116>
+			break;
  8000756:	bf00      	nop
  8000758:	e002      	b.n	8000760 <Clock_cnfg+0x118>
+			break;
  800075a:	bf00      	nop
  800075c:	e000      	b.n	8000760 <Clock_cnfg+0x118>
+			break;
  800075e:	bf00      	nop
+}
  8000760:	bf00      	nop
  8000762:	3750      	adds	r7, #80	@ 0x50
  8000764:	46bd      	mov	sp, r7
  8000766:	bd80      	pop	{r7, pc}
 
 08000768 <Error_Handler>:
+void Error_Handler(void)
+{
  8000768:	b480      	push	{r7}
  800076a:	af00      	add	r7, sp, #0
+	while(1);
  800076c:	bf00      	nop
  800076e:	e7fd      	b.n	800076c <Error_Handler+0x4>
 

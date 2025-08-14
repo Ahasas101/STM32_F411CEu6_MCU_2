@@ -1,5 +1,11 @@
 /*
  * In this excercise we are generating the signal of 10hz using timers, by toggling the gpio pin
+ *
+ * Calculations:	 Lets say timer clock is 16Mhz and you need to generate 10Hz signal so for that
+ * first you are making the counter clock slow by prescalar value of 25 which make counter clock = 16000000/25 = 640000
+ *
+ * now to generate signal of 10Hz we can have equation like 10*x = 640000 which gives x = 64000 so this is the value
+ * to be filled in period register
  */
 
 

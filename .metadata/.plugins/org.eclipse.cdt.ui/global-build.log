@@ -1,14 +1,21 @@
-10:22:38 **** Incremental Build of configuration Debug for project Cap_based_sensing ****
+10:01:27 **** Incremental Build of configuration Debug for project P_12_CAN_LoopBack ****
 make -j4 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F411xE -c -I../Core/Inc -I"D:/MUC2/Cap_based_sensing/FreeRTOSv2024" -I"D:/MUC2/Cap_based_sensing/FreeRTOSv2024/include" -I"D:/MUC2/Cap_based_sensing/FreeRTOSv2024/portable/GCC/ARM_CM4F" -I"D:/MUC2/Cap_based_sensing/FreeRTOSv2024/portable/MemMang" -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "Cap_based_sensing.elf" @"objects.list"   -mcpu=cortex-m4 -T"D:\MUC2\Cap_based_sensing\STM32F411CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Cap_based_sensing.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Cap_based_sensing.elf
+arm-none-eabi-gcc "../Core/Src/syscalls.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/syscalls.d" -MT"Core/Src/syscalls.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/syscalls.o"
+arm-none-eabi-gcc -o "P_12_CAN_LoopBack.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\MUC2\P_12_CAN_LoopBack\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="P_12_CAN_LoopBack.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: P_12_CAN_LoopBack.elf
  
-arm-none-eabi-size  Cap_based_sensing.elf 
-arm-none-eabi-objdump -h -S Cap_based_sensing.elf  > "Cap_based_sensing.list"
+arm-none-eabi-size  P_12_CAN_LoopBack.elf 
+arm-none-eabi-objdump -h -S P_12_CAN_LoopBack.elf  > "P_12_CAN_LoopBack.list"
    text	   data	    bss	    dec	    hex	filename
-  19828	    108	  79220	  99156	  18354	Cap_based_sensing.elf
+  10956	    104	   1944	  13004	   32cc	P_12_CAN_LoopBack.elf
 Finished building: default.size.stdout
  
-Finished building: Cap_based_sensing.list
+Finished building: P_12_CAN_LoopBack.list
+ 
+10:02:11 **** Incremental Build of configuration Debug for project P_12_CAN_LoopBack ****
+make -j4 all 
+arm-none-eabi-size  P_12_CAN_LoopBack.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10956	    104	   1944	  13004	   32cc	P_12_CAN_LoopBack.elf
+Finished building: default.size.stdout
  

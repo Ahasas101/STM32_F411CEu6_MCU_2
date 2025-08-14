@@ -1,0 +1,22 @@
+#include "stm32f1xx_hal.h"
+
+void CAN1_init(void);
+
+CAN_HandleTypeDef can1;
+
+int main(void)
+{
+	HAL_Init();
+	CAN1_init();
+}
+
+void CAN1_init(void)
+{
+	can1.Instance = CAN1;
+	can1.Init.Mode = CAN_MODE_LOOPBACK;
+	can1.Init.Prescaler = 1;
+	can1.Init.AutoBusOff = DISABLE;
+	can1.Init.AutoRetransmission = ENABLE;
+	can1.Init.ReceiveFifoLocked = DISABLE;
+
+}

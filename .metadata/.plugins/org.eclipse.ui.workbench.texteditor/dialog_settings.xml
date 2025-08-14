@@ -3,6 +3,14 @@
 	<item key="hasShownOverlayPopupBefore" value="true"/>
 	<item key="replaceBarOpen" value="false"/>
 	<list key="searchhistory">
+		<item value="GPIO_mode_define"/>
+		<item value="CAN_identifier_type"/>
+		<item value="CAN_time_quantum_in_bit_segment_2"/>
+		<item value="CAN_synchronisation_jump_width"/>
+		<item value="ADC_channels"/>
+		<item value="ADC_Data_align"/>
+		<item value="ADC_Resolution"/>
+		<item value="ADC_ClockPrescaler"/>
 		<item value="GPIO_Alternate_function_selection"/>
 		<item value="Error_Handler"/>
 		<item value="TIM_Output_Compare_and_PWM_modes"/>
@@ -10,14 +18,6 @@
 		<item value="RCC_System_Clock_Type"/>
 		<item value="RCC_APB1_APB2_Clock_Source"/>
 		<item value="RCC_Oscillator_Type"/>
-		<item value="RCC_HSE_Config"/>
-		<item value="RCC_PLL_Config"/>
-		<item value="RCC_LSE_Config"/>
-		<item value="TIM_Counter_Mode"/>
-		<item value="RCC_HSI_Config"/>
-		<item value="\"/>
-		<item value="GPIO_mode_define"/>
-		<item value="RCC_LSE_Config   "/>
 	</list>
 	<list key="replacehistory">
 		<item value="Error_handler"/>

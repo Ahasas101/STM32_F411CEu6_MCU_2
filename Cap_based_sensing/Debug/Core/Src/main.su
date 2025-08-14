@@ -6,5 +6,5 @@
 ../Core/Src/main.c:87:6:AdcInit	48	static
 ../Core/Src/main.c:115:6:CapChargeTaskHandler	24	static
 ../Core/Src/main.c:125:6:AdcReadTaskHandler	24	static
-../Core/Src/main.c:139:6:CapDischargeTaskHandler	24	static,ignoring_inline_asm
-../Core/Src/main.c:150:6:LcdPrintTaskHandler	24	static
+../Core/Src/main.c:140:6:CapDischargeTaskHandler	24	static,ignoring_inline_asm
+../Core/Src/main.c:151:6:LcdPrintTaskHandler	24	static

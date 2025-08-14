@@ -128,6 +128,7 @@ void AdcReadTaskHandler(void* parameters)
 	{
 		xTaskNotifyWait(0, 0, NULL, portMAX_DELAY);
 		if(HAL_ADC_Start(&adc) != HAL_OK) Error_Handler();
+		if(HAL_ADC_PollForConversion(&adc, HAL_MAX_DELAY) != HAL_OK) Error_Handler();
 		val = HAL_ADC_GetValue(&adc);
 		if(HAL_ADC_Stop(&adc) != HAL_OK) Error_Handler();
 		xTaskNotify(LcdPrintHandle, 0, eNoAction);
@@ -142,7 +143,7 @@ void CapDischargeTaskHandler(void* parameters)
 	{
 		xTaskNotifyWait(0, 0, NULL, portMAX_DELAY);
 		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
-		HAL_Delay(1000);
+		vTaskDelay(pdMS_TO_TICKS(1000));
 		taskYIELD();
 	}
 }
