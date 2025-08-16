@@ -1,0 +1,7 @@
+../Core/Src/it.c:6:6:SysTick_Handler	1
+../Core/Src/it.c:13:6:EXTI9_5_IRQHandler	1
+../Core/Src/it.c:21:6:TIM2_IRQHandler	1
+../Core/Src/it.c:26:6:USB_HP_CAN1_TX_IRQHandler	1
+../Core/Src/it.c:31:6:USB_LP_CAN1_RX0_IRQHandler	1
+../Core/Src/it.c:37:6:CAN1_RX1_IRQHandler	1
+../Core/Src/it.c:42:6:CAN1_SCE_IRQHandler	1
