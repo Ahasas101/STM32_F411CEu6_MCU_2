@@ -34,34 +34,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := P_12_CAN_LoopBack
+BUILD_ARTIFACT_NAME := P_13_CAN_LoopBack-IT
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-P_12_CAN_LoopBack.elf \
+P_13_CAN_LoopBack-IT.elf \
 
 MAP_FILES += \
-P_12_CAN_LoopBack.map \
+P_13_CAN_LoopBack-IT.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-P_12_CAN_LoopBack.list \
+P_13_CAN_LoopBack-IT.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: P_12_CAN_LoopBack.elf secondary-outputs
+main-build: P_13_CAN_LoopBack-IT.elf secondary-outputs
 
 # Tool invocations
-P_12_CAN_LoopBack.elf P_12_CAN_LoopBack.map: $(OBJS) $(USER_OBJS) D:\MUC2\P_12_CAN_LoopBack\STM32F103C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "P_12_CAN_LoopBack.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"D:\MUC2\P_12_CAN_LoopBack\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="P_12_CAN_LoopBack.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+P_13_CAN_LoopBack-IT.elf P_13_CAN_LoopBack-IT.map: $(OBJS) $(USER_OBJS) D:\MUC2\P_13_CAN_LoopBack-IT\STM32F103C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "P_13_CAN_LoopBack-IT.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"D:\MUC2\P_13_CAN_LoopBack-IT\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="P_13_CAN_LoopBack-IT.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -70,14 +70,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-P_12_CAN_LoopBack.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "P_12_CAN_LoopBack.list"
+P_13_CAN_LoopBack-IT.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "P_13_CAN_LoopBack-IT.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) P_12_CAN_LoopBack.elf P_12_CAN_LoopBack.list P_12_CAN_LoopBack.map default.size.stdout
+	-$(RM) P_13_CAN_LoopBack-IT.elf P_13_CAN_LoopBack-IT.list P_13_CAN_LoopBack-IT.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

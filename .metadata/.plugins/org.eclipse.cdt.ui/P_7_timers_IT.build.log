@@ -1,17 +1,10 @@
-15:42:17 **** Build of configuration Debug for project P_7_timers_IT ****
+20:58:17 **** Build of configuration Debug for project P_7_timers_IT ****
 make -j4 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F411xE -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "P_7_timers_IT.elf" @"objects.list"   -mcpu=cortex-m4 -T"D:\MUC2\P_7_timers_IT\STM32F411CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="P_7_timers_IT.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: P_7_timers_IT.elf
- 
 arm-none-eabi-size  P_7_timers_IT.elf 
-arm-none-eabi-objdump -h -S P_7_timers_IT.elf  > "P_7_timers_IT.list"
    text	   data	    bss	    dec	    hex	filename
    3924	     12	   1644	   5580	   15cc	P_7_timers_IT.elf
 Finished building: default.size.stdout
  
-Finished building: P_7_timers_IT.list
- 
 
-15:42:19 Build Finished. 0 errors, 0 warnings. (took 1s.897ms)
+20:58:17 Build Finished. 0 errors, 0 warnings. (took 312ms)
 

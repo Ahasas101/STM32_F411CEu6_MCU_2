@@ -1,11 +1,12 @@
 /*
- * In this project we are using loop back mode of can peripheral
+ * In this project we are using loop back mode usign interrupt of can peripheral
  * steps:-->
  * 1. first initilize the can as shown in CAN1_init
  * 2. For transmitting the message refer the CAN1_TX
  * 3. Configure the gpio in msp.c for CAN and also you have to enable the clock there
- * 4. You have to use the HAL_CAN_start to start the transmission
- * 5. If you need RX also then we have used CAN1_RZ and CAN1_Filter_init
+ * 4. You have to configure the interrupt priority and enable them in msp.c
+ * 5. call the HAL_CAN_IRQ_hanlder from the corresporinding irq handlers of the interrupts
+ * 6. implement the callbacks from main.c
  */
 
 
@@ -18,7 +19,6 @@ void Error_Hanlder(void);
 void SysClk_config(void);
 void GpioSwoInit(void);
 void CAN1_Tx(void);
-void CAN1_Rx(void);
 void CAN1_Filter_init(void);
 
 CAN_HandleTypeDef can1;
@@ -27,11 +27,16 @@ int main(void)
 {
 	HAL_Init();
 	SysClk_config(); // we are using HSE here which is 8Mhz
+	printf("Swo working!!!\n");
 	CAN1_init();
 	CAN1_Filter_init();
+
+	// here the interrupts are enabled for can
+	if(HAL_CAN_ActivateNotification(&can1, CAN_IT_TX_MAILBOX_EMPTY | CAN_IT_RX_FIFO0_MSG_PENDING | CAN_IT_BUSOFF) != HAL_OK)  Error_Hanlder();
+
 	if(HAL_CAN_Start(&can1) != HAL_OK) Error_Hanlder();
 	CAN1_Tx();
-	CAN1_Rx();
+
 
 
 }
@@ -80,6 +85,7 @@ void CAN1_init(void)
 }
 
 
+
 void CAN1_Tx(void)
 {
 	CAN_TxHeaderTypeDef Txheader;
@@ -95,26 +101,13 @@ void CAN1_Tx(void)
 	// here txmailbox is automatically filled by the below api, indicating which mailbox is being used
 	if(HAL_CAN_AddTxMessage(&can1, &Txheader, messg, &TxMailbox) != HAL_OK) Error_Hanlder();
 
-	while(HAL_CAN_IsTxMessagePending(&can1, TxMailbox));
 
-	printf("Message Transmitted");
 
-}
 
-void CAN1_Rx(void)
-{
-	CAN_RxHeaderTypeDef rxheader;
-
-	uint8_t rcvdmssg[5];
-
-	// wait until the fifo is filled
-	while(! HAL_CAN_GetRxFifoFillLevel(&can1, CAN_RX_FIFO0));
-
-	if(HAL_CAN_GetRxMessage(&can1, CAN_RX_FIFO0, &rxheader, rcvdmssg) != HAL_OK) Error_Hanlder();
-
-	printf("%.*s\n", 5, rcvdmssg);
 
 }
+
+
 
 void CAN1_Filter_init(void)
 {
@@ -134,6 +127,41 @@ void CAN1_Filter_init(void)
 
 	if(HAL_CAN_ConfigFilter(&can1,&filter) != HAL_OK) Error_Hanlder();
 }
+
+
+
+
+void HAL_CAN_TxMailbox0CompleteCallback(CAN_HandleTypeDef *hcan)
+{
+	printf("Message Transmitted via mailbox0\n");
+
+}
+void HAL_CAN_TxMailbox1CompleteCallback(CAN_HandleTypeDef *hcan)
+{
+	printf("Message Transmitted via mailbox1\n");
+
+}
+void HAL_CAN_TxMailbox2CompleteCallback(CAN_HandleTypeDef *hcan)
+{
+	printf("Message Transmitted via mailbox2\n");
+}
+void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
+{
+	CAN_RxHeaderTypeDef rxheader;
+
+	uint8_t rcvdmssg[5];
+
+
+	if(HAL_CAN_GetRxMessage(&can1, CAN_RX_FIFO0, &rxheader, rcvdmssg) != HAL_OK) Error_Hanlder();
+
+	printf("%.*s\n", 5, rcvdmssg);
+
+}
+void HAL_CAN_ErrorCallback(CAN_HandleTypeDef *hcan)
+{
+	printf("Can error detected\n");
+}
+
 
 void Error_Hanlder(void)
 {
