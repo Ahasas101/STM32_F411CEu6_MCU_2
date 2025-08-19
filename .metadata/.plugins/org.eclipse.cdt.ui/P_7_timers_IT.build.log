@@ -1,10 +1,10 @@
-20:58:17 **** Build of configuration Debug for project P_7_timers_IT ****
+21:46:24 **** Incremental Build of configuration Debug for project P_7_timers_IT ****
 make -j4 all 
 arm-none-eabi-size  P_7_timers_IT.elf 
    text	   data	    bss	    dec	    hex	filename
-   3924	     12	   1644	   5580	   15cc	P_7_timers_IT.elf
+   6672	    104	   1976	   8752	   2230	P_7_timers_IT.elf
 Finished building: default.size.stdout
  
 
-20:58:17 Build Finished. 0 errors, 0 warnings. (took 312ms)
+21:46:24 Build Finished. 0 errors, 0 warnings. (took 253ms)
 

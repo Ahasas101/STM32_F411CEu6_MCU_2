@@ -1,0 +1,10 @@
+17:01:39 **** Incremental Build of configuration Debug for project P_15_SleepOnExit ****
+make -j4 all 
+arm-none-eabi-size  P_15_SleepOnExit.elf 
+   text	   data	    bss	    dec	    hex	filename
+   5376	    104	   1904	   7384	   1cd8	P_15_SleepOnExit.elf
+Finished building: default.size.stdout
+ 
+
+17:01:40 Build Finished. 0 errors, 0 warnings. (took 254ms)
+

@@ -1,0 +1,16 @@
+20:46:24 **** Incremental Build of configuration Debug for project P_14_CAN_NormalMode ****
+make -j4 all 
+arm-none-eabi-gcc -mcpu=cortex-m3 -g3 -DDEBUG -c -I"D:/MUC2/P_14_CAN_NormalMode/Drivers/STM32F1xx_HAL_Driver/Inc" -I"D:/MUC2/P_14_CAN_NormalMode/Drivers/STM32F1xx_HAL_Driver/Src" -x assembler-with-cpp -MMD -MP -MF"Core/Startup/startup_stm32f103c8tx.d" -MT"Core/Startup/startup_stm32f103c8tx.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Startup/startup_stm32f103c8tx.o" "../Core/Startup/startup_stm32f103c8tx.s"
+arm-none-eabi-gcc -o "P_14_CAN_NormalMode.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\MUC2\P_14_CAN_NormalMode\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="P_14_CAN_NormalMode.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.18.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/it.o: in function `EXTI9_5_IRQHandler':
+D:/MUC2/P_14_CAN_NormalMode/Debug/../Core/Src/it.c:16:(.text.EXTI9_5_IRQHandler+0x6): undefined reference to `HAL_TIM_Base_Start_IT'
+C:/ST/STM32CubeIDE_1.18.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/it.o: in function `TIM2_IRQHandler':
+D:/MUC2/P_14_CAN_NormalMode/Debug/../Core/Src/it.c:22:(.text.TIM2_IRQHandler+0x6): undefined reference to `HAL_TIM_IRQHandler'
+C:/ST/STM32CubeIDE_1.18.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/main.o: in function `tim2_init':
+D:/MUC2/P_14_CAN_NormalMode/Debug/../Core/Src/main.c:171:(.text.tim2_init+0x22): undefined reference to `HAL_TIM_Base_Init'
+collect2.exe: error: ld returned 1 exit status
+make: *** [makefile:64: P_14_CAN_NormalMode.elf] Error 1
+"make -j4 all" terminated with exit code 2. Build might be incomplete.
+
+20:46:24 Build Failed. 4 errors, 0 warnings. (took 490ms)
+

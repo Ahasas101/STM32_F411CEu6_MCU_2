@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<item key="hasShownOverlayPopupBefore" value="true"/>
-	<item key="replaceBarOpen" value="false"/>
+	<item key="replaceBarOpen" value="true"/>
 	<list key="searchhistory">
 		<item value="GPIO_mode_define"/>
+		<item value="Error_Hanlder"/>
 		<item value="EXTI"/>
 		<item value="HAL_TIM_PeriodElapsedCallback"/>
 		<item value="TIM_Counter_Mode"/>
@@ -17,9 +18,9 @@
 		<item value="ADC_channels"/>
 		<item value="ADC_Data_align"/>
 		<item value="ADC_Resolution"/>
-		<item value="ADC_ClockPrescaler"/>
 	</list>
 	<list key="replacehistory">
+		<item value="Error_Handler"/>
 		<item value="Error_handler"/>
 	</list>
 </section>

@@ -32,6 +32,7 @@ int main(void)
 
 	HAL_Init();
 	GPIO_SWO();
+	printf("Hello\n");
 	GPIO_LED();
 	TIMER_Init();
 	// starting timer

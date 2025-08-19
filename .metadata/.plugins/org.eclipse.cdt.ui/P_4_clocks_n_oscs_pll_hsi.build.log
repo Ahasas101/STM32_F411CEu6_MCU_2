@@ -1,4 +1,4 @@
-20:58:15 **** Build of configuration Debug for project P_4_clocks_n_oscs_pll_hsi ****
+19:22:32 **** Incremental Build of configuration Debug for project P_4_clocks_n_oscs_pll_hsi ****
 make -j4 all 
 arm-none-eabi-size  P_4_clocks_n_oscs_pll_hsi.elf 
    text	   data	    bss	    dec	    hex	filename
@@ -6,5 +6,5 @@ arm-none-eabi-size  P_4_clocks_n_oscs_pll_hsi.elf
 Finished building: default.size.stdout
  
 
-20:58:16 Build Finished. 0 errors, 0 warnings. (took 428ms)
+19:22:32 Build Finished. 0 errors, 0 warnings. (took 259ms)
 

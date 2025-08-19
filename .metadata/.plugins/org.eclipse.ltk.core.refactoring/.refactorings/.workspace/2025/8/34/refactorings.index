@@ -1,0 +1,4 @@
+1755603177729	Rename resource 'P_15_SleepOnExit'
+1755603297390	Delete resource 'P_16_WFI(wake_for_interrupt)/P_15_SleepOnExit.launch'
+1755603389898	Delete resource 'P_16_WFI(wake_for_interrupt)'
+1755603436524	Rename resource 'P_16_WFI'

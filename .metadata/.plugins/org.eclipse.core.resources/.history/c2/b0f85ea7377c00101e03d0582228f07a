@@ -1,0 +1,74 @@
+/*
+ * In this exercise we will use the timer to gnerate the interrput after every 10ms and print some data in its isr after which we are entering
+ * sleep mode
+ */
+
+
+#include "stm32f4xx_hal.h"
+#include <stdio.h>
+
+void Tim_init(void);
+void Error_Handler(void);
+void GpioSwoInit(void);
+void led_init(void);
+
+TIM_HandleTypeDef tim;
+
+int main(void)
+{
+  HAL_Init();
+  GpioSwoInit();
+  led_init();
+  if(HAL_TIM_Base_Start_IT(&tim) != HAL_OK) Error_Handler();
+
+
+}
+
+void Tim_init(void)
+{
+
+	tim.Instance = TIM2;
+	tim.Init.CounterMode = TIM_COUNTERMODE_UP;
+	tim.Init.Prescaler = 15; // as the input clock is 25Mhz
+	tim.Init.Period = 10000 - 1; // to generate the signal of 100Hz or tim period of 10ms
+
+	if(HAL_TIM_Base_Init(&tim) != HAL_OK) Error_Handler();
+}
+
+
+void GpioSwoInit(void)
+{
+	__HAL_RCC_GPIOB_CLK_ENABLE();
+	GPIO_InitTypeDef gpio_swo;
+	gpio_swo.Mode = GPIO_MODE_AF_PP;
+	gpio_swo.Pin = GPIO_PIN_3;
+	gpio_swo.Alternate = GPIO_AF0_SWJ;
+	gpio_swo.Pull = GPIO_NOPULL;
+	gpio_swo.Speed = GPIO_SPEED_FREQ_LOW;
+	HAL_GPIO_Init(GPIOB, &gpio_swo);
+}
+
+void HAL_TIM_PeriodElapsedHalfCpltCallback(TIM_HandleTypeDef *htim)
+{
+ printf("Hello!! \n");
+ HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+}
+
+void led_init(void)
+{
+	__HAL_RCC_GPIOC_CLK_ENABLE();
+
+	GPIO_InitTypeDef led;
+	led.Pin = 13;
+	led.Mode = GPIO_MODE_OUTPUT_PP;
+	led.Speed = GPIO_SPEED_FREQ_MEDIUM;
+	led.Pull = GPIO_NOPULL;
+
+	HAL_GPIO_Init(GPIOC, &led);
+}
+
+
+void Error_Handler(void)
+{
+	while(1);
+}

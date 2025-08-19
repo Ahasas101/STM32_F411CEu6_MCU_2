@@ -1,0 +1,93 @@
+/*
+ * In this exercise we are entering the sleep mode using wait for interrupt
+ * sleep mode
+ */
+
+
+#include "stm32f4xx_hal.h"
+#include <stdio.h>
+
+void Error_Handler(void);
+void GpioSwoInit(void);
+void button_init(void);
+
+TIM_HandleTypeDef tim;
+
+int main(void)
+{
+  HAL_Init();
+   GpioSwoInit();
+   printf("Hello\n");
+   button_init();
+
+
+
+
+
+  while(1)
+  {
+	  // going to sleep
+	  __WFI(); // enable the wfi instruction
+	  // resumes here after wakeup
+  }
+  return 0;
+
+}
+
+
+void GpioSwoInit(void)
+{
+	__HAL_RCC_GPIOB_CLK_ENABLE();
+	GPIO_InitTypeDef gpio_swo;
+	gpio_swo.Mode = GPIO_MODE_AF_PP;
+	gpio_swo.Pin = GPIO_PIN_3;
+	gpio_swo.Alternate = GPIO_AF0_SWJ;
+	gpio_swo.Pull = GPIO_NOPULL;
+	gpio_swo.Speed = GPIO_SPEED_FREQ_LOW;
+	HAL_GPIO_Init(GPIOB, &gpio_swo);
+
+	// In order to save the power you must keep the other pins of the gpio's in analog mode
+	gpio_swo.Pin = GPIO_PIN_1 | GPIO_PIN_2  | GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6 | \
+				GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12 | \
+				GPIO_PIN_0 | GPIO_PIN_14 | GPIO_PIN_15;
+	gpio_swo.Mode = GPIO_MODE_ANALOG;
+
+	HAL_GPIO_Init(GPIOB, &gpio_swo);
+}
+
+
+
+void button_init(void)
+{
+	__HAL_RCC_GPIOA_CLK_ENABLE();
+
+	GPIO_InitTypeDef button;
+	button.Pin = GPIO_PIN_0;
+	button.Mode = GPIO_MODE_IT_RISING;
+	button.Speed = GPIO_SPEED_FREQ_MEDIUM;
+	button.Pull = GPIO_PULLUP;
+	HAL_GPIO_Init(GPIOA, &button);
+
+	HAL_NVIC_SetPriority(EXTI0_IRQn, 15, 0);
+	HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+	// In order to save the power you must keep the other pins of the gpio's in analog mode
+
+	// you cannpt change the state of pin 13 and pin 14 because they are used as swdio and swclk
+	button.Pin = GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3 | GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6 | \
+				GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12 | \
+				 GPIO_PIN_15;
+
+	button.Mode = GPIO_MODE_ANALOG;
+
+	HAL_GPIO_Init(GPIOA, &button);
+}
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	printf("Hello from callback\n");
+}
+
+void Error_Handler(void)
+{
+	while(1);
+}
