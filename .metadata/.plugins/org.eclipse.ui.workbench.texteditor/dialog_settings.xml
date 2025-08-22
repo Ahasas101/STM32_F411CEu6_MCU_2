@@ -3,7 +3,10 @@
 	<item key="hasShownOverlayPopupBefore" value="true"/>
 	<item key="replaceBarOpen" value="true"/>
 	<list key="searchhistory">
+		<item value="GPIO_Alternate_function_selection"/>
 		<item value="GPIO_mode_define"/>
+		<item value="RTC_Month_Date_Definitions"/>
+		<item value="RTC_Hour_Formats"/>
 		<item value="Error_Hanlder"/>
 		<item value="EXTI"/>
 		<item value="HAL_TIM_PeriodElapsedCallback"/>
@@ -15,12 +18,13 @@
 		<item value="CAN_identifier_type"/>
 		<item value="CAN_time_quantum_in_bit_segment_2"/>
 		<item value="CAN_synchronisation_jump_width"/>
-		<item value="ADC_channels"/>
-		<item value="ADC_Data_align"/>
-		<item value="ADC_Resolution"/>
 	</list>
 	<list key="replacehistory">
 		<item value="Error_Handler"/>
 		<item value="Error_handler"/>
 	</list>
+	<section name="org.eclipse.ui.texteditor.GotoLineAction$GotoLineDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="567"/>
+		<item key="DIALOG_Y_ORIGIN" value="314"/>
+	</section>
 </section>
