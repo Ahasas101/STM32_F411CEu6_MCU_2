@@ -1,0 +1,10 @@
+10:21:44 **** Incremental Build of configuration Debug for project P_18_RunMode_current ****
+make -j4 all 
+arm-none-eabi-size  P_18_RunMode_current.elf 
+   text	   data	    bss	    dec	    hex	filename
+   9904	    104	   1904	  11912	   2e88	P_18_RunMode_current.elf
+Finished building: default.size.stdout
+ 
+
+10:21:45 Build Finished. 0 errors, 0 warnings. (took 251ms)
+

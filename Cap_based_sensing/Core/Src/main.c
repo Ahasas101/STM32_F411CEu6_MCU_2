@@ -31,6 +31,7 @@ int main(void)
 	HAL_Init();
 	GpioSwoInit();
 	AdcInit();
+	printf("Hello");
 
 	BaseType_t status;
 

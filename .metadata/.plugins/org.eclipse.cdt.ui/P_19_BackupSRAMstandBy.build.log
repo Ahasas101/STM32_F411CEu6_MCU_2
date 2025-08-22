@@ -1,0 +1,10 @@
+23:41:29 **** Incremental Build of configuration Debug for project P_19_BackupSRAMstandBy ****
+make -j4 all 
+arm-none-eabi-size  P_19_BackupSRAMstandBy.elf 
+   text	   data	    bss	    dec	    hex	filename
+   4844	     96	   1904	   6844	   1abc	P_19_BackupSRAMstandBy.elf
+Finished building: default.size.stdout
+ 
+
+23:41:29 Build Finished. 0 errors, 0 warnings. (took 335ms)
+
