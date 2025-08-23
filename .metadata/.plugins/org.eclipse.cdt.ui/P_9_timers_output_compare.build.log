@@ -1,4 +1,4 @@
-19:06:12 **** Incremental Build of configuration Debug for project P_9_timers_output_compare ****
+10:43:07 **** Build of configuration Debug for project P_9_timers_output_compare ****
 make -j4 all 
 arm-none-eabi-size  P_9_timers_output_compare.elf 
    text	   data	    bss	    dec	    hex	filename
@@ -6,5 +6,5 @@ arm-none-eabi-size  P_9_timers_output_compare.elf
 Finished building: default.size.stdout
  
 
-19:06:12 Build Finished. 0 errors, 0 warnings. (took 264ms)
+10:43:07 Build Finished. 0 errors, 0 warnings. (took 256ms)
 

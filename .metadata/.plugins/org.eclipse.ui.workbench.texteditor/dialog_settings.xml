@@ -3,6 +3,8 @@
 	<item key="hasShownOverlayPopupBefore" value="true"/>
 	<item key="replaceBarOpen" value="true"/>
 	<list key="searchhistory">
+		<item value="RTC_AM_PM_Definitions"/>
+		<item value="RTC_Alarms_Definitions"/>
 		<item value="GPIO_Alternate_function_selection"/>
 		<item value="GPIO_mode_define"/>
 		<item value="RTC_Month_Date_Definitions"/>
@@ -16,8 +18,6 @@
 		<item value="can1"/>
 		<item value="CAN_receive_FIFO_number"/>
 		<item value="CAN_identifier_type"/>
-		<item value="CAN_time_quantum_in_bit_segment_2"/>
-		<item value="CAN_synchronisation_jump_width"/>
 	</list>
 	<list key="replacehistory">
 		<item value="Error_Handler"/>

@@ -1,17 +1,10 @@
-21:37:04 **** Incremental Build of configuration Debug for project P_14_Can_NormalMode_corrected ****
+10:42:53 **** Build of configuration Debug for project P_14_Can_NormalMode_corrected ****
 make -j4 all 
-arm-none-eabi-gcc "../Core/Src/syscalls.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/syscalls.d" -MT"Core/Src/syscalls.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/syscalls.o"
-arm-none-eabi-gcc -o "P_14_Can_NormalMode_corrected.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\MUC2\P_14_Can_NormalMode_corrected\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="P_14_Can_NormalMode_corrected.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: P_14_Can_NormalMode_corrected.elf
- 
 arm-none-eabi-size  P_14_Can_NormalMode_corrected.elf 
-arm-none-eabi-objdump -h -S P_14_Can_NormalMode_corrected.elf  > "P_14_Can_NormalMode_corrected.list"
    text	   data	    bss	    dec	    hex	filename
   14252	    104	   2048	  16404	   4014	P_14_Can_NormalMode_corrected.elf
 Finished building: default.size.stdout
  
-Finished building: P_14_Can_NormalMode_corrected.list
- 
 
-21:37:05 Build Finished. 0 errors, 0 warnings. (took 1s.105ms)
+10:42:53 Build Finished. 0 errors, 0 warnings. (took 343ms)
 

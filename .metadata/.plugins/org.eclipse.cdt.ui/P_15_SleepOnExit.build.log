@@ -1,10 +1,16 @@
-17:01:39 **** Incremental Build of configuration Debug for project P_15_SleepOnExit ****
+10:42:53 **** Build of configuration Debug for project P_15_SleepOnExit ****
 make -j4 all 
+arm-none-eabi-gcc -o "P_15_SleepOnExit.elf" @"objects.list"   -mcpu=cortex-m4 -T"D:\MUC2\P_15_SleepOnExit\STM32F411CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="P_15_SleepOnExit.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: P_15_SleepOnExit.elf
+ 
 arm-none-eabi-size  P_15_SleepOnExit.elf 
+arm-none-eabi-objdump -h -S P_15_SleepOnExit.elf  > "P_15_SleepOnExit.list"
    text	   data	    bss	    dec	    hex	filename
-   5376	    104	   1904	   7384	   1cd8	P_15_SleepOnExit.elf
+   6760	    104	   1976	   8840	   2288	P_15_SleepOnExit.elf
 Finished building: default.size.stdout
  
+Finished building: P_15_SleepOnExit.list
+ 
 
-17:01:40 Build Finished. 0 errors, 0 warnings. (took 254ms)
+10:42:54 Build Finished. 0 errors, 0 warnings. (took 950ms)
 

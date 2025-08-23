@@ -1,10 +1,18 @@
-23:41:29 **** Incremental Build of configuration Debug for project P_19_BackupSRAMstandBy ****
+10:42:59 **** Build of configuration Debug for project P_19_BackupSRAMstandBy ****
 make -j4 all 
+arm-none-eabi-gcc "../Core/Src/it.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F411xE -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/it.d" -MT"Core/Src/it.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/it.o"
+arm-none-eabi-gcc "../Core/Src/msp.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F411xE -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/msp.d" -MT"Core/Src/msp.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/msp.o"
+arm-none-eabi-gcc -o "P_19_BackupSRAMstandBy.elf" @"objects.list"   -mcpu=cortex-m4 -T"D:\MUC2\P_19_BackupSRAMstandBy\STM32F411CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="P_19_BackupSRAMstandBy.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: P_19_BackupSRAMstandBy.elf
+ 
 arm-none-eabi-size  P_19_BackupSRAMstandBy.elf 
+arm-none-eabi-objdump -h -S P_19_BackupSRAMstandBy.elf  > "P_19_BackupSRAMstandBy.list"
    text	   data	    bss	    dec	    hex	filename
-   4844	     96	   1904	   6844	   1abc	P_19_BackupSRAMstandBy.elf
+   4932	     96	   1904	   6932	   1b14	P_19_BackupSRAMstandBy.elf
 Finished building: default.size.stdout
  
+Finished building: P_19_BackupSRAMstandBy.list
+ 
 
-23:41:29 Build Finished. 0 errors, 0 warnings. (took 335ms)
+10:43:00 Build Finished. 0 errors, 0 warnings. (took 997ms)
 

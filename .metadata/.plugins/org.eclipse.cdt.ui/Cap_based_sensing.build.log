@@ -1,4 +1,4 @@
-11:56:28 **** Incremental Build of configuration Debug for project Cap_based_sensing ****
+10:42:48 **** Build of configuration Debug for project Cap_based_sensing ****
 make -j4 all 
 arm-none-eabi-size  Cap_based_sensing.elf 
    text	   data	    bss	    dec	    hex	filename
@@ -6,5 +6,5 @@ arm-none-eabi-size  Cap_based_sensing.elf
 Finished building: default.size.stdout
  
 
-11:56:29 Build Finished. 0 errors, 0 warnings. (took 557ms)
+10:42:49 Build Finished. 0 errors, 0 warnings. (took 1s.142ms)
 

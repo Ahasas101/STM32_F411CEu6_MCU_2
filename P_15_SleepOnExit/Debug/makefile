@@ -34,34 +34,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := P_16_WFI
+BUILD_ARTIFACT_NAME := P_15_SleepOnExit
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-P_16_WFI.elf \
+P_15_SleepOnExit.elf \
 
 MAP_FILES += \
-P_16_WFI.map \
+P_15_SleepOnExit.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-P_16_WFI.list \
+P_15_SleepOnExit.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: P_16_WFI.elf secondary-outputs
+main-build: P_15_SleepOnExit.elf secondary-outputs
 
 # Tool invocations
-P_16_WFI.elf P_16_WFI.map: $(OBJS) $(USER_OBJS) D:\MUC2\P_16_WFI\STM32F411CEUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "P_16_WFI.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\MUC2\P_16_WFI\STM32F411CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="P_16_WFI.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+P_15_SleepOnExit.elf P_15_SleepOnExit.map: $(OBJS) $(USER_OBJS) D:\MUC2\P_15_SleepOnExit\STM32F411CEUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "P_15_SleepOnExit.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\MUC2\P_15_SleepOnExit\STM32F411CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="P_15_SleepOnExit.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -70,14 +70,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-P_16_WFI.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "P_16_WFI.list"
+P_15_SleepOnExit.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "P_15_SleepOnExit.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) P_16_WFI.elf P_16_WFI.list P_16_WFI.map default.size.stdout
+	-$(RM) P_15_SleepOnExit.elf P_15_SleepOnExit.list P_15_SleepOnExit.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

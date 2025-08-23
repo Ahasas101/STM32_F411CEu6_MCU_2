@@ -128,9 +128,10 @@ int main(void)
 
 	  // going to sleep
 
-	  __SEV();
+	  // follow this order
+	  __SEV(); // first you set the event flag
  8000208:	bf40      	sev
-	  __WFE();
+	  __WFE(); // clear the event flag
  800020a:	bf20      	wfe
 	__WFE(); // enable the WFE instruction
  800020c:	bf20      	wfe
