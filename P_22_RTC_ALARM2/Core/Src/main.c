@@ -1,0 +1,156 @@
+/*
+ * In this exercise we are setting the alarm for the 8:00:00 AM every sunday, interrupt must be triggered during the alarm.
+ */
+#include <stdio.h>
+#include "stm32f4xx_hal.h"
+
+RTC_HandleTypeDef rtc;
+RTC_AlarmTypeDef alarm;
+RTC_TimeTypeDef time;
+RTC_DateTypeDef date;
+
+
+void Error_Handler(void);
+void RTC_Init(void);
+void RTC_CalenderConfig(void);
+void button_init(void);
+char* GetDayOfWeek(uint8_t day);
+void Alarm_init(void);
+
+int main(void)
+{
+	HAL_Init();
+	button_init();
+	RTC_Init();
+
+
+	printf("Hello...\n");
+
+	while(1);
+}
+
+void RTC_Init(void)
+{
+	rtc.Instance = RTC;
+	rtc.Init.HourFormat = RTC_HOURFORMAT_12;
+	rtc.Init.AsynchPrediv = 0x7F;
+	rtc.Init.SynchPrediv = 0xFF; // for lse we are using this configuration
+	rtc.Init.OutPut = RTC_OUTPUT_DISABLE;
+	if(HAL_RTC_Init(&rtc) != HAL_OK) Error_Handler();
+}
+
+void RTC_CalenderConfig(void)
+{
+	// we are using binary format, and in binary format you can pass the values directly in decimal as they are stored in binary
+
+	RTC_TimeTypeDef time;
+	RTC_DateTypeDef date;
+
+	time.Hours = 7;
+	time.Minutes = 59;
+	time.Seconds = 50;
+	time.TimeFormat = RTC_HOURFORMAT12_AM;
+	if(HAL_RTC_SetTime(&rtc, &time, RTC_FORMAT_BIN) != HAL_OK) Error_Handler();
+
+	date.Date = 24;
+	date.Month = RTC_MONTH_AUGUST;
+	date.Year = 25;
+	date.WeekDay = RTC_WEEKDAY_SUNDAY;
+
+	if(HAL_RTC_SetDate(&rtc, &date, RTC_FORMAT_BIN) != HAL_OK) Error_Handler();
+}
+
+void button_init(void)
+{
+	__HAL_RCC_GPIOA_CLK_ENABLE();
+
+	GPIO_InitTypeDef button;
+	// This button is to print the data on screen and also set the alarm
+	button.Pin = GPIO_PIN_0;
+	button.Mode = GPIO_MODE_IT_RISING;
+	button.Pull = GPIO_PULLUP;
+	button.Speed = GPIO_SPEED_FREQ_MEDIUM;
+
+	HAL_NVIC_SetPriority(EXTI0_IRQn, 15, 0);
+	HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+
+	HAL_GPIO_Init(GPIOA, &button);
+
+	__HAL_RCC_GPIOC_CLK_ENABLE();
+	button.Pin = GPIO_PIN_13;
+	button.Mode = GPIO_MODE_OUTPUT_PP;
+	button.Pull = GPIO_NOPULL;
+	HAL_GPIO_Init(GPIOC, &button);
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
+}
+
+char* GetDayOfWeek(uint8_t day)
+{
+	char* weekday[] = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+	return weekday[day-1];
+}
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+
+	static uint32_t last_tick = 0;
+	if(HAL_GetTick() - last_tick < 200)
+	{
+		return;
+	}
+	last_tick = HAL_GetTick();
+
+	RTC_CalenderConfig();
+
+
+
+	HAL_RTC_GetTime(&rtc, &time, RTC_FORMAT_BIN);
+	HAL_RTC_GetDate(&rtc, &date, RTC_FORMAT_BIN);
+
+
+	printf("Current Time : %d:%d:%d \n", time.Hours, time.Minutes, time.Seconds);
+	printf("Current Date: %d-%d-%d <%s> \n", date.Date, date.Month, date.Year, GetDayOfWeek(date.WeekDay) );
+
+	Alarm_init();
+
+
+
+
+
+}
+
+void Alarm_init(void)
+{
+
+	// you have to memset the handle first, I have not done here but it is always a good practice
+
+	alarm.Alarm = RTC_ALARM_A;
+	alarm.AlarmTime.Hours = 8;
+	alarm.AlarmTime.Minutes = 00;
+	alarm.AlarmTime.Seconds = 0;
+	alarm.AlarmTime.TimeFormat = RTC_HOURFORMAT12_AM;
+	alarm.AlarmDateWeekDaySel = RTC_ALARMDATEWEEKDAYSEL_WEEKDAY;
+	alarm.AlarmDateWeekDay = RTC_WEEKDAY_SUNDAY;
+	alarm.AlarmMask = RTC_ALARMMASK_NONE;
+
+	if(HAL_RTC_SetAlarm_IT(&rtc, &alarm, RTC_FORMAT_BIN) != HAL_OK) Error_Handler();
+}
+
+void HAL_RTC_AlarmAEventCallback(RTC_HandleTypeDef *hrtc)
+{
+	printf("ALARM TRIGGERED!!!!\n");
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+
+
+	HAL_RTC_GetTime(&rtc, &time, RTC_FORMAT_BIN);
+	HAL_RTC_GetDate(&rtc, &date, RTC_FORMAT_BIN);
+
+	printf("Current Time : %d:%d:%d \n", time.Hours, time.Minutes, time.Seconds);
+	printf("Current Date: %d-%d-%d <%s> \n", date.Date, date.Month, date.Year, GetDayOfWeek(date.WeekDay) );
+}
+
+
+void Error_Handler(void)
+{
+	while(1);
+}

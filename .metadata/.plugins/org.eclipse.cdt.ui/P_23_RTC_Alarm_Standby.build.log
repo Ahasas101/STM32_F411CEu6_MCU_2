@@ -1,0 +1,10 @@
+18:22:02 **** Incremental Build of configuration Debug for project P_23_RTC_Alarm_Standby ****
+make -j4 all 
+arm-none-eabi-size  P_23_RTC_Alarm_Standby.elf 
+   text	   data	    bss	    dec	    hex	filename
+  12668	    104	   2008	  14780	   39bc	P_23_RTC_Alarm_Standby.elf
+Finished building: default.size.stdout
+ 
+
+18:22:02 Build Finished. 0 errors, 0 warnings. (took 251ms)
+
